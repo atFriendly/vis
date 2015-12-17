@@ -1,76 +1,98 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-  <title>Timeline | Orientation</title>
+    <title>Timeline | Orientation</title>
 
-  <style type="text/css">
-    body, html {
-      font-family: sans-serif;
-    }
-  </style>
+    <style type="text/css">
+        body, html {
+            font-family: sans-serif;
+        }
+    </style>
 
-  <script src="../../../dist/vis.js"></script>
-  <link href="../../../dist/vis.css" rel="stylesheet" type="text/css" />
+    <script src="../../../dist/vis.js"></script>
+    <link href="../../../dist/vis.css" rel="stylesheet" type="text/css"/>
 
-  <script src="../../googleAnalytics.js"></script>
+    <script src="../../googleAnalytics.js"></script>
 </head>
 <body>
 
 <p>
-  There are a number of orientation options for the time axis and the items.
+    There are a number of orientation options for the time axis and the items.
 </p>
 
 <p>
-  <label for="axis-orientation">Axis orientation</label>
-  <select id="axis-orientation">
-    <option value="both">both</option>
-    <option value="bottom" selected>bottom</option>
-    <option value="none">none</option>
-    <option value="top">top</option>
-  </select>
+    <label for="axis-orientation">Axis orientation</label>
+    <select id="axis-orientation">
+        <option value="both">both</option>
+        <option value="bottom" selected>bottom</option>
+        <option value="none">none</option>
+        <option value="top">top</option>
+        <option value="middle">middle</option>
+    </select>
 </p>
 
 <p>
-  <label for="item-orientation">Item orientation</label>
-  <select id="item-orientation">
-    <option value="bottom" selected>bottom</option>
-    <option value="top">top</option>
-  </select>
+    <label for="item-orientation">Item orientation</label>
+    <select id="item-orientation">
+        <option value="bottom" selected>bottom</option>
+        <option value="top">top</option>
+        <option value="middle-top">middle-top</option>
+        <option value="middle-bottom">middle-bottom</option>
+    </select>
 </p>
 
 <div id="visualization"></div>
 
 <script type="text/javascript">
-  // DOM element where the Timeline will be attached
-  var container = document.getElementById('visualization');
+    // DOM element where the Timeline will be attached
+    var container = document.getElementById('visualization');
 
-  // Create a DataSet (allows two way data-binding)
-  var items = new vis.DataSet([
-    {id: 1, content: 'item 1', start: '2014-04-20'},
-    {id: 2, content: 'item 2', start: '2014-04-14'},
-    {id: 3, content: 'item 3', start: '2014-04-18'},
-    {id: 4, content: 'item 4', start: '2014-04-16', end: '2014-04-19'},
-    {id: 5, content: 'item 5', start: '2014-04-25'},
-    {id: 6, content: 'item 6', start: '2014-04-27', type: 'point'}
-  ]);
+    // Create a DataSet (allows two way data-binding)
+    var items = new vis.DataSet([
+        {id: 1, content: 'item 1', start: '2014-04-20'},
+        {id: 2, content: 'item 2', start: '2014-04-14'},
+        {id: 3, content: 'item 3', start: '2014-04-18'},
+        {id: 4, content: 'item 4', start: '2014-04-16', end: '2014-04-19'},
+        {id: 5, content: 'item 5', start: '2014-04-25'},
+        {id: 6, content: 'item 6', start: '2014-04-27', type: 'point'}
+    ]);
 
-  // Configuration for the Timeline
-  var options = {
-    height: 250 // px
-  };
+    var data1 = new vis.DataSet([
+        {id: 1, content: 'fund 1', start: '2014-04-20'},
+        {id: 2, content: 'fund 2', start: '2014-04-14'},
+        {id: 3, content: 'fund 3', start: '2014-04-18'},
+        {id: 5, content: 'fund 5', start: '2014-04-25'}
+    ]);
+    var data2 = new vis.DataSet([
+        {id: 11, content: 'inv 1', start: '2014-04-21'},
+        {id: 21, content: 'inv 2', start: '2014-04-16'},
+        {id: 31, content: 'inv 3', start: '2014-04-19'},
+        {id: 51, content: 'inv 5', start: '2014-04-28'}
+    ]);
 
-  // Create a Timeline
-  var timeline = new vis.Timeline(container, items, options);
 
-  var axisOrientation = document.getElementById('axis-orientation');
-  axisOrientation.onchange = function () {
-    timeline.setOptions({ orientation: {axis: this.value} });
-  };
+    // Configuration for the Timeline
+    var options = {
+        height: 250,
+        multipleDataSets: true,
+        orientation: {
+            axis: 'middle',
+            item: 'middle-top'
+        }
+    };
 
-  var itemOrientation = document.getElementById('item-orientation');
-  itemOrientation.onchange = function () {
-    timeline.setOptions({ orientation: {item: this.value} });
-  };
+    // Create a Timeline
+    var timeline = new vis.Timeline(container, [data1,data2], options);
+
+    var axisOrientation = document.getElementById('axis-orientation');
+    axisOrientation.onchange = function () {
+        timeline.setOptions({orientation: {axis: this.value}});
+    };
+
+    var itemOrientation = document.getElementById('item-orientation');
+    itemOrientation.onchange = function () {
+        timeline.setOptions({orientation: {item: this.value}});
+    };
 </script>
 </body>
 </html>
